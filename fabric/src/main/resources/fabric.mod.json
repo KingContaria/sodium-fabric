@@ -62,7 +62,8 @@
         "modmenu.kofi" : "https://caffeinemc.net/donate",
         "modmenu.modrinth" : "https://modrinth.com/mod/sodium"
       }
-    }
+    },
+    "sodium:config_integrations": "net.caffeinemc.mods.sodium.client.guinew.ExampleSodiumConfigIntegration"
   },
   "accessWidener" : "sodium.accesswidener",
   "mixins" : [

@@ -4,6 +4,7 @@ import net.caffeinemc.mods.sodium.client.SodiumClientMod;
 import net.caffeinemc.mods.sodium.client.gui.SodiumOptionsGUI;
 import net.caffeinemc.mods.sodium.client.render.frapi.SodiumRenderer;
 import net.caffeinemc.mods.sodium.client.render.texture.SpriteFinderCache;
+import net.caffeinemc.mods.sodium.neoforge.gui.SodiumConfigIntegrationAPIForge;
 import net.fabricmc.fabric.api.renderer.v1.RendererAccess;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
@@ -16,6 +17,7 @@ import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 public class SodiumForgeMod {
     public SodiumForgeMod(IEventBus bus, ModContainer modContainer) {
         SodiumClientMod.onInitialization(ModList.get().getModContainerById("sodium").orElseThrow().getModInfo().getVersion().toString());
+        SodiumConfigIntegrationAPIForge.initConfigIntegrations();
         bus.addListener(this::onResourceReload);
         modContainer.registerExtensionPoint(IConfigScreenFactory.class, (minecraft, screen) -> SodiumOptionsGUI.createScreen(screen));
         RendererAccess.INSTANCE.registerRenderer(SodiumRenderer.INSTANCE);

@@ -12,6 +12,7 @@ import net.caffeinemc.mods.sodium.client.gui.prompt.ScreenPrompt;
 import net.caffeinemc.mods.sodium.client.gui.prompt.ScreenPromptable;
 import net.caffeinemc.mods.sodium.client.gui.screen.ConfigCorruptedScreen;
 import net.caffeinemc.mods.sodium.client.gui.widgets.FlatButtonWidget;
+import net.caffeinemc.mods.sodium.client.guinew.SodiumConfigIntegrationAPI;
 import net.caffeinemc.mods.sodium.client.services.PlatformRuntimeInformation;
 import net.caffeinemc.mods.sodium.client.util.Dim2i;
 import net.minecraft.ChatFormatting;
@@ -125,7 +126,8 @@ public class SodiumOptionsGUI extends Screen implements ScreenPromptable {
         if (SodiumClientMod.options().isReadOnly()) {
             return new ConfigCorruptedScreen(currentScreen, SodiumOptionsGUI::new);
         } else {
-            return new SodiumOptionsGUI(currentScreen);
+            return SodiumConfigIntegrationAPI.createConfigScreen(currentScreen);
+            //return new SodiumOptionsGUI(currentScreen);
         }
     }
 

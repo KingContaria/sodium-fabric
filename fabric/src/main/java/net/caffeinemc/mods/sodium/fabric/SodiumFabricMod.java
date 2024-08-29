@@ -4,6 +4,7 @@ import net.caffeinemc.mods.sodium.client.SodiumClientMod;
 import net.caffeinemc.mods.sodium.client.render.frapi.SodiumRenderer;
 import net.caffeinemc.mods.sodium.client.render.texture.SpriteFinderCache;
 import net.caffeinemc.mods.sodium.client.util.FlawlessFrames;
+import net.caffeinemc.mods.sodium.fabric.gui.SodiumConfigIntegrationAPIFabric;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.renderer.v1.RendererAccess;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
@@ -34,6 +35,8 @@ public class SodiumFabricMod implements ClientModInitializer {
         FabricLoader.getInstance()
                 .getEntrypoints("frex_flawless_frames", Consumer.class)
                 .forEach(api -> api.accept(FlawlessFrames.getProvider()));
+
+        SodiumConfigIntegrationAPIFabric.initConfigIntegrations();
 
         ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new ResourceReload() {
             @Override

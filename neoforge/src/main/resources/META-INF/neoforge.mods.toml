@@ -21,6 +21,7 @@ Sodium is a powerful rendering engine for Minecraft which improves frame rates a
 provides = ["indium"]
 
 [modproperties.sodium]
+"sodium:config_integrations" = "net.caffeinemc.mods.sodium.client.guinew.ExampleSodiumConfigIntegration"
 "fabric-renderer-api-v1:contains_renderer" = true
 
 [[dependencies.sodium]]
