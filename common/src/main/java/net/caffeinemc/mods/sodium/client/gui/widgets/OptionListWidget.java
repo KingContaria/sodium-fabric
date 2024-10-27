@@ -61,7 +61,6 @@ public class OptionListWidget extends AbstractParentWidget {
 
     @Override
     public void render(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-        graphics.fillGradient(this.getX(), this.getY(), this.getWidth(), this.getHeight(), 0x40000000, 0x90000000);
         graphics.enableScissor(this.getX(), this.getY(), this.getLimitX(), this.getLimitY());
         super.render(graphics, mouseX, mouseY, delta);
         graphics.disableScissor();

@@ -7,7 +7,6 @@ import net.caffeinemc.mods.sodium.client.gui.widgets.OptionListWidget;
 import net.caffeinemc.mods.sodium.client.util.Dim2i;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Style;
 import net.minecraft.util.Mth;
 import org.apache.commons.lang3.Validate;
@@ -50,7 +49,6 @@ public class SliderControl implements Control<Integer> {
     private static class Button extends ControlElement<Integer> {
         private static final int THUMB_WIDTH = 2, TRACK_HEIGHT = 1;
 
-        private final Rect2i sliderBounds;
         private int contentWidth;
         private final ControlValueFormatter formatter;
 
@@ -73,16 +71,15 @@ public class SliderControl implements Control<Integer> {
             this.thumbPosition = this.getThumbPositionForValue(option.getValidatedValue());
             this.formatter = formatter;
 
-            this.sliderBounds = new Rect2i(dim.getLimitX() - 96, dim.getCenterY() - 5, 90, 10);
             this.sliderHeld = false;
         }
 
         @Override
         public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-            int sliderX = this.sliderBounds.getX();
-            int sliderY = this.sliderBounds.getY();
-            int sliderWidth = this.sliderBounds.getWidth();
-            int sliderHeight = this.sliderBounds.getHeight();
+            int sliderX = this.getSliderX();
+            int sliderY = this.getSliderY();
+            int sliderWidth = this.getSliderWidth();
+            int sliderHeight = this.getSliderHeight();
 
             var value = this.option.getValidatedValue();
             var isEnabled = this.option.isEnabled();
@@ -124,6 +121,26 @@ public class SliderControl implements Control<Integer> {
             }
         }
 
+        public int getSliderX() {
+            return this.getLimitX() - 96;
+        }
+
+        public int getSliderY() {
+            return this.getCenterY() - 5;
+        }
+
+        public int getSliderWidth() {
+            return 90;
+        }
+
+        public int getSliderHeight() {
+            return 10;
+        }
+
+        public boolean isMouseOverSlider(double mouseX, double mouseY) {
+            return mouseX >= this.getSliderX() && mouseX < this.getSliderX() + this.getSliderWidth() && mouseY >= this.getSliderY() && mouseY < this.getSliderY() + this.getSliderHeight();
+        }
+
         @Override
         public int getContentWidth() {
             return this.contentWidth;
@@ -146,7 +163,7 @@ public class SliderControl implements Control<Integer> {
             this.sliderHeld = false;
 
             if (this.option.isEnabled() && button == 0 && this.isMouseOver(mouseX, mouseY)) {
-                if (this.sliderBounds.contains((int) mouseX, (int) mouseY)) {
+                if (this.isMouseOverSlider(mouseX, mouseY)) {
                     this.setValueFromMouse(mouseX);
                     this.sliderHeld = true;
                 }
@@ -158,7 +175,7 @@ public class SliderControl implements Control<Integer> {
         }
 
         private void setValueFromMouse(double d) {
-            this.setValue((d - (double) this.sliderBounds.getX()) / (double) this.sliderBounds.getWidth());
+            this.setValue((d - (double) this.getSliderX()) / (double) this.getSliderWidth());
         }
 
         public void setValue(double d) {
