@@ -3,6 +3,7 @@ package net.caffeinemc.mods.sodium.client.gui.options.control;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.caffeinemc.mods.sodium.api.config.option.ControlValueFormatter;
 import net.caffeinemc.mods.sodium.client.config.structure.Option;
+import net.caffeinemc.mods.sodium.client.gui.widgets.OptionListWidget;
 import net.caffeinemc.mods.sodium.client.util.Dim2i;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
@@ -32,8 +33,8 @@ public class SliderControl implements Control<Integer> {
     }
 
     @Override
-    public ControlElement<Integer> createElement(Dim2i dim) {
-        return new Button(this.option, dim, this.min, this.max, this.interval, this.mode);
+    public ControlElement<Integer> createElement(OptionListWidget list, Dim2i dim) {
+        return new Button(list, this.option, dim, this.min, this.max, this.interval, this.mode);
     }
 
     @Override
@@ -62,8 +63,8 @@ public class SliderControl implements Control<Integer> {
 
         private boolean sliderHeld;
 
-        public Button(Option<Integer> option, Dim2i dim, int min, int max, int interval, ControlValueFormatter formatter) {
-            super(option, dim);
+        public Button(OptionListWidget list, Option<Integer> option, Dim2i dim, int min, int max, int interval, ControlValueFormatter formatter) {
+            super(list, option, dim);
 
             this.min = min;
             this.max = max;
@@ -144,7 +145,7 @@ public class SliderControl implements Control<Integer> {
         public boolean mouseClicked(double mouseX, double mouseY, int button) {
             this.sliderHeld = false;
 
-            if (this.option.isEnabled() && button == 0 && this.dim.containsCursor(mouseX, mouseY)) {
+            if (this.option.isEnabled() && button == 0 && this.isMouseOver(mouseX, mouseY)) {
                 if (this.sliderBounds.contains((int) mouseX, (int) mouseY)) {
                     this.setValueFromMouse(mouseX);
                     this.sliderHeld = true;

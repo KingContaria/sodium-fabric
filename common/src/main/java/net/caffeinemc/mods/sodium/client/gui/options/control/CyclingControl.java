@@ -1,6 +1,7 @@
 package net.caffeinemc.mods.sodium.client.gui.options.control;
 
 import net.caffeinemc.mods.sodium.client.config.structure.Option;
+import net.caffeinemc.mods.sodium.client.gui.widgets.OptionListWidget;
 import net.caffeinemc.mods.sodium.client.util.Dim2i;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.navigation.CommonInputs;
@@ -31,8 +32,8 @@ public class CyclingControl<T extends Enum<T>> implements Control<T> {
     }
 
     @Override
-    public ControlElement<T> createElement(Dim2i dim) {
-        return new CyclingControlElement<>(this.option, dim, this.allowedValues, this.elementNameProvider);
+    public ControlElement<T> createElement(OptionListWidget list, Dim2i dim) {
+        return new CyclingControlElement<>(list, this.option, dim, this.allowedValues, this.elementNameProvider);
     }
 
     @Override
@@ -45,8 +46,8 @@ public class CyclingControl<T extends Enum<T>> implements Control<T> {
         private final Function<T, Component> elementNameProvider;
         private int currentIndex;
 
-        public CyclingControlElement(Option<T> option, Dim2i dim, T[] allowedValues, Function<T, Component> elementNameProvider) {
-            super(option, dim);
+        public CyclingControlElement(OptionListWidget list, Option<T> option, Dim2i dim, T[] allowedValues, Function<T, Component> elementNameProvider) {
+            super(list, option, dim);
 
             this.allowedValues = allowedValues;
             this.elementNameProvider = elementNameProvider;
@@ -69,12 +70,12 @@ public class CyclingControl<T extends Enum<T>> implements Control<T> {
             Component name = this.elementNameProvider.apply(value);
 
             int strWidth = this.getStringWidth(name);
-            this.drawString(graphics, name, this.dim.getLimitX() - strWidth - 6, this.dim.getCenterY() - 4, 0xFFFFFFFF);
+            this.drawString(graphics, name, this.getLimitX() - strWidth - 6, this.getCenterY() - 4, 0xFFFFFFFF);
         }
 
         @Override
         public boolean mouseClicked(double mouseX, double mouseY, int button) {
-            if (this.option.isEnabled() && button == 0 && this.dim.containsCursor(mouseX, mouseY)) {
+            if (this.option.isEnabled() && button == 0 && this.isMouseOver(mouseX, mouseY)) {
                 cycleControl(Screen.hasShiftDown());
                 this.playClickSound();
 
